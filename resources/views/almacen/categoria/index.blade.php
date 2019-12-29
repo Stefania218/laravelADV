@@ -2,7 +2,7 @@
 @section ('contenido')
 <div class="row">
     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-    	<h3>Listado de Categorías <a href="categoria/create"><button>Nuevo</button></a></h3>
+    	<h3>Listado de Categorías <a href="categoria/create"><button class="btn btn-success">Nuevo</button></a></h3>
     	@include('almacen.categoria.search')
     </div>
 </div>
@@ -14,16 +14,16 @@
 			<thead>
 				<th>Id</th>
 				<th>Nombre</th>
-				<th>Descripcion</th>
+				<th>Descripcion </th>
 				<th>Opciones</th>
 			</thead>
             @foreach ($categorias as $cat)
 			<tr>
-				<td>{{ $cat->idcategoria}}</td>
-				<td>{{ $cat->nombre}}</td>
-				<td>{{ $cat->descripcion}}</td>
+				<td>{{ $cat->idCategoria}}</td>
+				<td>{{ $cat->Nombre}}</td>
+				<td>{{ $cat->Descripcion}}</td>
 				<td>
-					<a href=""><button class="btn btn-info">Editar</button></a>
+					<a href="{{URL::action('CategoriaController@edit',$cat->idCategoria)}}"><button class="btn btn-info">Editar</button></a>
 					<a href=""><button class="btn btn-danger">Eliminar</button></a>
 				</td>
 			</tr>

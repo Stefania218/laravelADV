@@ -22,7 +22,7 @@ class CategoriaController extends Controller
     	{
     		$query=trim($request->get('searchText')); //almaceno todo en query y el trim dice q no dejo espacios en blanco
     		$categorias=DB::table('categoria')->where('nombre','LIKE','%'.$query.'%')
-            ->where('condicion','=','1')  
+            ->where ('condicion','=','1')  
             ->orderBy('idcategoria','desc')
             ->paginate(7);
     		return view('almacen.categoria.index',["categorias"=>$categorias,"searchText"=>$query]); //enviamos todas las categorias en un parametro llamado categoria y el texto de busqueda en un parametro llamada searchText.
@@ -38,11 +38,11 @@ class CategoriaController extends Controller
     public function store(CategoriaFormRequest $request)
     {
     	$categoria=new Categoria;//objeto modelo q hace referencia al modelo categoria
-    	$caregoria->nombre=$request->get('nombre');
+    	$categoria->nombre=$request->get('nombre');
     	$categoria->descripcion=$request->get('descripcion');
     	$categoria->condicion='1';
     	$categoria->save(); //save para almacenar el objeto categoria en la tabla categoria de la DB
-    	return Redirect::to('almacen/categoria'); //luego de almacenar con save el objeto, redirecciona a todas las categorias a la vista en la carpeta almacen subcapeta categoria
+    	return\Redirect::to('almacen/categoria'); //luego de almacenar con save el objeto, redirecciona a todas las categorias a la vista en la carpeta almacen subcapeta categoria
     }
     public function show($id) //id de la categoria q kiero mostrar
     {
