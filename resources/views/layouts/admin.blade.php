@@ -92,7 +92,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="almacen/articulo"><i class="fa fa-circle-o"></i> Artículos</a></li>
-                <li><a href="almacen/categoria"><i class="fa fa-circle-o"></i> Categorías</a></li>
+                <li><a href="{{route('categoria.index')}}"><i class="fa fa-circle-o"></i> Categorías</a></li>
               </ul>
             </li>
             

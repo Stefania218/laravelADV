@@ -4,21 +4,25 @@ namespace sisVentas;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Categoria extends Model
+class Articulo extends Model
 {
-    protected $table='categoria';
+    protected $table='articulo';
 
-    protected $primaryKey='idCategoria';
+    protected $primaryKey='idArticulo';
 
     public $timestamps=false; //para q no se agreguen automaticamente
 
     protected $fillable=[
         'idCategoria',
-        'Codigo',
-        'Nombre'
+        'codigo',
+        'nombre',
+        'stock',
+        'descripcion',
+        'imagen',
+        'estado',
     ];
 
     protected $guarded =[
 
-    ];//guarded indica q asigna al modelo los campos de arriba
+    ];//
 }

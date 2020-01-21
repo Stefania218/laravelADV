@@ -17,6 +17,7 @@
 				<th>Descripcion </th>
 				<th>Opciones</th>
 			</thead>
+			@if(!empty($categorias))
             @foreach ($categorias as $cat)
 			<tr>
 				<td>{{ $cat->idCategoria}}</td>
@@ -24,13 +25,16 @@
 				<td>{{ $cat->Descripcion}}</td>
 				<td>
 					<a href="{{URL::action('CategoriaController@edit',$cat->idCategoria)}}"><button class="btn btn-info">Editar</button></a>
-					<a href=""><button class="btn btn-danger">Eliminar</button></a>
+					<a href="{{URL::action('CategoriaController@destroy',$cat->idCategoria)}}"><button class="btn btn-danger">Eliminar</button></a>
 				</td>
 			</tr>
             @endforeach
+            @endif
 			</table>
 		</div>
-		{{$categorias->render()}}
+			@if(isset($categorias) && !empty($categorias))
+				{{$categorias->render()}}
+			@endif
 	</div>
 </div>
 

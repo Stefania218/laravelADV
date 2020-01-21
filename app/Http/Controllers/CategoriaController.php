@@ -32,40 +32,45 @@ class CategoriaController extends Controller
     }
     public function create()
     {
-    	return view("almacen.categoria.create");//retorna la vista
+        return view("almacen.categoria.create");//retorna la vista//retorna la vista
 
     }
     public function store(CategoriaFormRequest $request)
     {
     	$categoria=new Categoria;//objeto modelo q hace referencia al modelo categoria
-    	$categoria->nombre=$request->get('nombre');
-    	$categoria->descripcion=$request->get('descripcion');
-    	$categoria->condicion='1';
-    	$categoria->save(); //save para almacenar el objeto categoria en la tabla categoria de la DB
-    	return\Redirect::to('almacen/categoria'); //luego de almacenar con save el objeto, redirecciona a todas las categorias a la vista en la carpeta almacen subcapeta categoria
+        $categoria->nombre=$request->get('nombre');
+        $categoria->descripcion=$request->get('descripcion');
+        $categoria->condicion='1';
+        $categoria->save(); //save para almacenar el objeto categoria en la tabla categoria de la DB
+        return redirect()->to('almacen/categoria'); //luego de almacenar con save el objeto, redirecciona a todas las categorias a la vista en la carpeta almacen subcapeta categoria
     }
     public function show($id) //id de la categoria q kiero mostrar
     {
-    	return view("almacen.categoria.show",["categoria"=>Categoria::findOrFail($id)]); //llama a la vista show y pidele q muestre la categoria q indica el id
+       $categoria = Categoria::findOrFail($id);
+        return view("almacen.categoria.index",compact("categoria")); //llama a la vista show y pidele q muestre la categoria q indica el id
+
     }
     public function edit($id)
     {
-    	return view("almacen.categoria.edit",["categoria"=>Categoria::findOrFail($id)]);
+        $categoria = Categoria::findOrFail($id);
+
+        return view("almacen.categoria.edit",compact("categoria")); 
     }
-    public function update(CategoriaFormRequest $request,$id) //todos los datos q kiera modificar los voy a validar con el request y el id de la categoria q kiero modificar
+    public function update(CategoriaFormRequest $request, $id) //todos los datos q kiera modificar los voy a validar con el request y el id de la categoria q kiero modificar
     {
     	$categoria=Categoria::findOrFail($id);
     	$categoria->nombre=$request->get('nombre');
     	$categoria->descripcion=$request->get('descripcion');
     	$categoria->update(); //modifiq los datos de la categoria
-    	return Redirect::to('almacen/categoria'); //redirecciono a la vista index
+        //return Redirect::to('almacen/categoria'); //redirecciono a la vista index
+    	return redirect()->to('almacen/categoria'); //redirecciono a la vista index
     }
     public function destroy($id)
     {
     	$categoria=Categoria::findOrFail($id);//cambio para q no se muestre en todas las categorias y se modifiq con el id q recibo por parametro
     	$categoria->condicion='0';
     	$categoria->update();
-    	return Redirect::to('almacen/categoria');
+    	return back();
 
     }//elimina, destruye
     //con todo esto trabajamos con un controlador para q nos muestre una vista o va a interactuar con el modelo para enviar o consultar info.
