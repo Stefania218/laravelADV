@@ -31,11 +31,11 @@ class IngresoController extends Controller
     		->join('persona as p','i.idproveedor','=','p.idpersona')
     		->join('detalle_ingreso as di','i.idingreso','=','di.idingreso')
     		->select('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto','i.estado',DB::raw('sum(di.cantidad*precio_compra) as total'))
-    		->where('i.num_comprobante','LIKE','%'.$query.'%')
+    		//->where('i.num_comprobante','LIKE','%'.$query.'%')
     		->orderBy('i.idingreso','desc')
     		->groupBy('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto','i.estado')
     		->paginate(7);
-    		return view('compras.ingreso.index',["ingresos"=>$ingresos,"searchText"=>$query]);
+            return view('compras.ingreso.index',["ingresos"=>$ingresos,"searchText"=>$query]);
     	}
     }
     public function create()
@@ -45,7 +45,7 @@ class IngresoController extends Controller
     	    ->select(DB::raw('CONCAT(art.codigo, " ",art.nombre) AS articulo'),'art.idarticulo')
     	    ->where('art.estado','=','Activo')
     	    ->get();
-    	 return view('compras.ingreso.create',["personas"=>$personas,"articulos"=>$articulos]);
+    	 return view("compras.ingreso.create",["personas"=>$personas,"articulos"=>$articulos]);
 
     }//hago una consulta a la tabla persona donde tipo de pers sea igual a proveed para q se muestre un listado con todos los provee y saber quien cual lo esta abasteciendo. la linea q sigue dice q se hace una consulta a la tabla articulo con alias art y seleccionando los campos con el medoto raw para concatenar el codigo con el nombre del articulo y mostrarlo en una sola columna tb con alias as articulo para q se muestren los articulos tb se necesita el idarticulo porq es lo q se almacena en la db. por ultimo retorna la vista create q me va a permitir crear el formulario enviando los proveedores y los articulos
 
