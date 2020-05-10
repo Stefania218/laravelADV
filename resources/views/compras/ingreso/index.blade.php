@@ -21,19 +21,20 @@
 				<th>Opciones</th>		
 			</thead>
 			@if(!empty($ingresos))
-			
+			@php echo "hola mundo" @endphp
+			{{ "chau" }}
             @foreach ($ingresos as $ing) 
-            
+
 			<tr>
-				<td>{{ $ing->Fecha_hora}}</td>
-				<td>{{ $ing->Nombre}}</td>
-				<td>{{ $ing->Tipo_comprobante.': '.$ing->Serie_comprobante.'-'.$ing->Num_comprobante}}</td>
-				<td>{{ $ing->Impuesto}}</td>
-				<td>{{ $ing->Total}}</td>
-				<td>{{ $ing->Estado}}</td>
+				<td>{{ $ing->fecha_hora}}</td>
+				<td>{{ $ing->nombre}}</td>
+				<td>{{ $ing->tipo_comprobante.': '.$ing->serie_comprobante.'-'.$ing->num_comprobante}}</td>
+				<td>{{ $ing->impuesto}}</td>
+				<td>{{ $ing->total}}</td>
+				<td>{{ $ing->estado}}</td>
 				<td>
-					<a href="{{URL::action('IngresoController@show',$ing->idIngreso)}}"><button class="btn btn-primary">Detalles</button></a>
-					<a href="{{URL::action('IngresoController@destroy',$ing->idIngreso)}}"><button class="btn btn-danger">Anular</button></a>
+					<a href="{{URL::action('IngresoController@show',$ing->idingreso)}}"><button class="btn btn-primary">Detalles</button></a>
+					<a href="{{URL::action('IngresoController@destroy',$ing->idingreso)}}"><button class="btn btn-danger">Anular</button></a>
 				</td>
 			</tr>
 

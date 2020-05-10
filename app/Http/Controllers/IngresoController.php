@@ -26,15 +26,18 @@ class IngresoController extends Controller
     {
     	if ($request)
     	{
-    		$query=trim($request->get('searchText')); //trim para borrar espacios al inicio y al final. $ingresos significa q ingresos hara una consulta a la db a la tabla ingreso con ese i y va a unir la tabla ingreso con la tabla persona(de la tabla ingreso usa el idproveedor para ver si es igual al id persona de la tabla p q es la tabla persona). se hace otra union mas uniendo tabla detalle de ingreso con tabla ingreso, mediante los campos i de id de ingreso para ver si es igual al id de tabla detalle de ingreso. el select dice q de mi tabla ingreso quiero obtener el i de ingreso, la fecha y la hora, de la tabla persona p el nombre del proveedor y el tipo de comprobante de tabla ingreso etc. el where dice q la busqueda se hara por el campo num de comprobante de la tabla ingreso todo lo demas significa para buscar en cualquier lugar. order dice q se ordenara de manera descendente, los ingresos mas actuales apareceran primero. el return me dice q retorna la vista de compras con todos los ingresos y muestro el texto q filtro con search
+    		$query=trim($request->get('searchText')); //trim para borrar espacios al inicio y al final. $ingresos significa q ingresos hara una consulta a la db a la tabla ingreso con ese i y va a unir la tabla ingreso con la tabla persona(de la tabla ingreso usa el idproveedor para ver si es igual al id persona de la tabla p q es la tabla persona). se hace otra union mas uniendo tabla detalle de ingreso con tabla ingreso, mediante los campos i de id de ingreso para ver si es igual al id de tabla detalle de ingreso. el select dice q de mi tabla ingreso quiero obtener el i de ingreso, la fecha y la hora, de la tabla persona p el nombre del proveedor y el tipo de comprobante de tabla ingreso etc. el where dice q la busqueda se hara por el campo num de comprobante de la tabla ingreso todo lo demas significa para buscar en cualquier lugar. order dice q se ordenara de manera descendente, los ingresos mas actuales apareceran primero. el return me dice q retorna la vista de compras con todos los ingresos y muestro el texto q filtro con search.
+            //@php dd(), echo "hola mundo" @endphp 
+
     		$ingresos=DB::table('ingreso as i')
     		->join('persona as p','i.idproveedor','=','p.idpersona')
-    		->join('detalle_ingreso as di','i.idingreso','=','di.idingreso')
+    		->leftJoin('detalle_ingreso as di','i.idingreso','=','di.idingreso')
     		->select('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto','i.estado',DB::raw('sum(di.cantidad*precio_compra) as total'))
     		//->where('i.num_comprobante','LIKE','%'.$query.'%')
     		->orderBy('i.idingreso','desc')
     		->groupBy('i.idingreso','i.fecha_hora','p.nombre','i.tipo_comprobante','i.serie_comprobante','i.num_comprobante','i.impuesto','i.estado')
     		->paginate(7);
+            //dd(DB::table('ingreso as i')->get());
             return view('compras.ingreso.index',["ingresos"=>$ingresos,"searchText"=>$query]);
     	}
     }

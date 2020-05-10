@@ -127,8 +127,9 @@
             {!!Form::close()!!} 
 
 @push ('scripts')
-<script>
+<script> //permite q el boton agregue a la tabla de ingreso cada vez q se hace click
     $(document).ready(function(){
+        //boton bt_add de la linea 89 arriba
         $('#bt_add').click(function(){
             agregar();
         });
@@ -136,24 +137,28 @@
 
     var cont=0;
     total=0;
-    subtotal=[];
+    subtotal=[]; //para guardar todos los subtotales. hide es ocultar
     $("#guardar").hide();
 
-    function agregar(){
+    function agregar(){ //las dos primeras lineas significa q selecciono el texto del id del articulo q esta seleccionado
         idarticulo=$("#pidarticulo").val();
-        articulo=$("#pidarticulo option:selected").text();
+        articulo=$("#pidarticulo option:selected").text();//no kiero el valor sino el texto seleccionado por eso dice text
         cantidad=$("#pcantidad").val();
         precio_compra=$("#pprecio_compra").val();
         precio_venta=$("#pprecio_venta").val();
 
-        if (idarticulo="" && cantidad!="" && cantidad>0 && precio_compra!="" && precio_venta!=""){
-            subtotal[cont]=(cantidad*precio_compra);
+        //valido q nada este vacio. calcula subtotales y total
+        if (idarticulo!="" && cantidad!="" && cantidad>0 && precio_compra!="" && precio_venta!=""){
+            subtotal[cont]=(cantidad*precio_compra);//va calculando los subtotales uno por uno, el cont va cambiando 
             total=total+subtotal[cont];
 
+            //el primer buton permite eliminar la fila especifica. todo en una sola linea. name="idarticulo[]" <- array de controles o sea de idarticulo. el signo + es concatenar
             var fila='<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-warning" onclick="eliminar('+cont+');">X</button></td><td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td><td><input type="number" name="cantidad[]" value="'+cantidad+'"></td><td><input type="number" name="precio_compra[]" value="'+precio_compra+'"></td><td><input type="number" name="precio_venta[]" value="'+precio_venta+'"></td><td>'+subtotal[cont]+'</td></tr>';
             cont++;
+            //limpiar para dejar vacias las cajas e ingresar nuevos valores
             limpiar();
             $("#total").html("S/. " + total);
+            //en esas dos lineas digo q agregue la fila q esta en var fila q es codigo html
             evaluar();
             $('#detalles').append(fila);
         }
@@ -162,12 +167,14 @@
         }
     }
 
+    //permite q el boton limpiar de ingreso, limpie
     function limpiar(){
         $("#pcantidad").val("");
         $("#pprecio_compra").val("");
         $("#pprecio_venta").val("");
     }
  
+    //para no guardar algo vacio. si no tiene detalle estara oculto el boton
     function evaluar(){
         if (total>0){
             $("#guardar").show();
@@ -177,11 +184,12 @@
         }
     }
 
+    //cdo hago click en la x llamo a la funcion eliminar y le envio un parametro q elimine y despues calcula el subtotal y actualizo el total
     function eliminar(index){
         total=total-subtotal[index];
         $("#total").html("S/. " + total);
-        $("#fila" + index).remove();
-        evaluar();
+        $("#fila" + index).remove();//remuevo la fila
+        evaluar();//evaluo si el total es mayor a 0
     }
 
 </script> 
